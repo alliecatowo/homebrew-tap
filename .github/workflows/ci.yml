@@ -57,10 +57,39 @@ jobs:
           for f in ${{ steps.changed.outputs.formulae }}; do brew style --except-cops "$EXCEPT" "alliecatowo/tap/$f"; done
           for c in ${{ steps.changed.outputs.casks }}; do brew style --except-cops "$EXCEPT" --cask "alliecatowo/tap/$c"; done
 
-      - name: brew audit --strict
-        env:
-          EXCEPT: FormulaAudit/InstallSteps,Cask/InstallSteps
+      # brew style above already ran the style cops, so skip them here:
+      # --strict and --except-cops are mutually exclusive.
+      - name: brew audit --strict (formulae)
         run: |
           set -euo pipefail
-          for f in ${{ steps.changed.outputs.formulae }}; do brew audit --strict --except-cops "$EXCEPT" --formula "alliecatowo/tap/$f"; done
-          for c in ${{ steps.changed.outputs.casks }}; do brew audit --strict --except-cops "$EXCEPT" --cask "alliecatowo/tap/$c"; done
+          for f in ${{ steps.changed.outputs.formulae }}; do brew audit --strict --except=style --formula "alliecatowo/tap/$f"; done
+
+  # Casks are macOS-only; `brew audit --cask` cannot load them on Linux.
+  audit-cask:
+    name: brew audit --cask
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: Homebrew/actions/setup-homebrew@main
+
+      - name: Audit changed casks
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            base="${{ github.event.pull_request.base.sha }}"
+          elif [ "${{ github.event_name }}" = "push" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+            base="${{ github.event.before }}"
+          else
+            base=""
+          fi
+          if [ -n "$base" ]; then
+            files=$(git diff --name-only --diff-filter=AM "$base" HEAD -- 'Casks/*.rb' || true)
+          else
+            files=$(ls Casks/*.rb 2>/dev/null || true)
+          fi
+          for f in $files; do
+            brew audit --strict --except=style --cask "alliecatowo/tap/$(basename "$f" .rb)"
+          done
