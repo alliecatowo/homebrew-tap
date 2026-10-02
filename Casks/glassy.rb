@@ -3,7 +3,7 @@
 #
 # Installs Glassy.app and links the embedded CLI binary onto PATH. Version and sha256
 # fields are rewritten on every release by the update-homebrew job in
-# alliecatowo/glassy, rendered from packaging/homebrew/cask.rb.tmpl. Do not edit by hand.
+# alliecatowo/glassy, rendered from packaging/homebrew/tap/cask.rb.tmpl. Do not edit by hand.
 cask "glassy" do
   arch arm: "aarch64", intel: "x86_64"
 

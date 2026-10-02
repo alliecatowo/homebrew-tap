@@ -46,14 +46,21 @@ jobs:
           echo "Formulae: $formulae"
           echo "Casks: $casks"
 
+      # Newest Homebrew wants post_install_steps/postflight_steps (a DSL that
+      # released brews do not understand yet). Keep the classic form so installs
+      # work for everyone, and exclude only those two cops.
       - name: brew style
+        env:
+          EXCEPT: FormulaAudit/InstallSteps,Cask/InstallSteps
         run: |
           set -euo pipefail
-          for f in ${{ steps.changed.outputs.formulae }}; do brew style "alliecatowo/tap/$f"; done
-          for c in ${{ steps.changed.outputs.casks }}; do brew style --cask "alliecatowo/tap/$c"; done
+          for f in ${{ steps.changed.outputs.formulae }}; do brew style --except-cops "$EXCEPT" "alliecatowo/tap/$f"; done
+          for c in ${{ steps.changed.outputs.casks }}; do brew style --except-cops "$EXCEPT" --cask "alliecatowo/tap/$c"; done
 
       - name: brew audit --strict
+        env:
+          EXCEPT: FormulaAudit/InstallSteps,Cask/InstallSteps
         run: |
           set -euo pipefail
-          for f in ${{ steps.changed.outputs.formulae }}; do brew audit --strict --formula "alliecatowo/tap/$f"; done
-          for c in ${{ steps.changed.outputs.casks }}; do brew audit --strict --cask "alliecatowo/tap/$c"; done
+          for f in ${{ steps.changed.outputs.formulae }}; do brew audit --strict --except-cops "$EXCEPT" --formula "alliecatowo/tap/$f"; done
+          for c in ${{ steps.changed.outputs.casks }}; do brew audit --strict --except-cops "$EXCEPT" --cask "alliecatowo/tap/$c"; done

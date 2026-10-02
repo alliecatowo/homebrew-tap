@@ -3,7 +3,7 @@
 #
 # Version and sha256 fields are rewritten on every release by the update-homebrew
 # job in alliecatowo/glassy (.github/workflows/release.yml), which renders them from
-# packaging/homebrew/formula.rb.tmpl in that repo and pushes here. Do not edit by hand.
+# packaging/homebrew/tap/formula.rb.tmpl in that repo and pushes here. Do not edit by hand.
 #
 # On macOS, stable installs fetch the prebuilt per-arch binary release asset. Linux
 # stable installs build from the source tarball. --HEAD builds from main on any OS.
@@ -11,7 +11,6 @@ class Glassy < Formula
   desc "Fast, minimal GPU-accelerated terminal emulator written in Rust"
   homepage "https://github.com/alliecatowo/glassy"
   url "https://github.com/alliecatowo/glassy/releases/download/v0.6.1/glassy-0.6.1-src.tar.gz"
-  version "0.6.1"
   sha256 "2b58d0ffcc0690965840b29f1f4b31357d7e9e00ccc42c2934368e807256ca6c"
   license "MIT"
 
@@ -50,12 +49,6 @@ class Glassy < Formula
     else
       system "cargo", "install", *std_cargo_args
     end
-  end
-
-  # Install man page if present.
-  def post_install
-    man1.mkpath
-    man1.install "extra/glassy.1" if File.exist?("extra/glassy.1")
   end
 
   test do
