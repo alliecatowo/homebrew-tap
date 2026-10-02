@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  pull_request:
+    paths: ["Formula/**", "Casks/**", ".github/workflows/ci.yml"]
+  push:
+    branches: [main]
+    paths: ["Formula/**", "Casks/**", ".github/workflows/ci.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: brew style + audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Installs Homebrew and taps this checkout as alliecatowo/tap.
+      - uses: Homebrew/actions/setup-homebrew@main
+
+      - name: Find changed formulae and casks
+        id: changed
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            base="${{ github.event.pull_request.base.sha }}"
+          elif [ "${{ github.event_name }}" = "push" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+            base="${{ github.event.before }}"
+          else
+            base=""
+          fi
+          if [ -n "$base" ]; then
+            files=$(git diff --name-only --diff-filter=AM "$base" HEAD -- 'Formula/*.rb' 'Casks/*.rb' || true)
+          else
+            files=$(ls Formula/*.rb Casks/*.rb 2>/dev/null || true)
+          fi
+          formulae=$(echo "$files" | grep '^Formula/' | sed 's|Formula/||; s|\.rb$||' | tr '\n' ' ' || true)
+          casks=$(echo "$files" | grep '^Casks/' | sed 's|Casks/||; s|\.rb$||' | tr '\n' ' ' || true)
+          echo "formulae=$formulae" >> "$GITHUB_OUTPUT"
+          echo "casks=$casks" >> "$GITHUB_OUTPUT"
+          echo "Formulae: $formulae"
+          echo "Casks: $casks"
+
+      - name: brew style
+        run: |
+          set -euo pipefail
+          for f in ${{ steps.changed.outputs.formulae }}; do brew style "alliecatowo/tap/$f"; done
+          for c in ${{ steps.changed.outputs.casks }}; do brew style --cask "alliecatowo/tap/$c"; done
+
+      - name: brew audit --strict
+        run: |
+          set -euo pipefail
+          for f in ${{ steps.changed.outputs.formulae }}; do brew audit --strict --formula "alliecatowo/tap/$f"; done
+          for c in ${{ steps.changed.outputs.casks }}; do brew audit --strict --cask "alliecatowo/tap/$c"; done

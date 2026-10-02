@@ -1,0 +1,53 @@
+# Homebrew Cask for glassy, a fast GPU-accelerated terminal emulator.
+# brew install --cask alliecatowo/tap/glassy
+#
+# Installs Glassy.app and links the embedded CLI binary onto PATH. Version and sha256
+# fields are rewritten on every release by the update-homebrew job in
+# alliecatowo/glassy, rendered from packaging/homebrew/cask.rb.tmpl. Do not edit by hand.
+cask "glassy" do
+  arch arm: "aarch64", intel: "x86_64"
+
+  version "0.6.1"
+  sha256 arm:   "b55b5e2b4bc7164b4e6c7f7e726ba056dc981a21e2f99fdb4cf682e2a157fa26",
+         intel: "eeaee56df9850b20e18a3718a7345f16956025ad39af57ba31b8b579e61d2a9b"
+
+  url "https://github.com/alliecatowo/glassy/releases/download/v0.6.1/glassy-#{version}-macos-#{arch}.dmg"
+  name "Glassy"
+  desc "Fast, minimal GPU-accelerated terminal emulator written in Rust"
+  homepage "https://github.com/alliecatowo/glassy"
+
+  depends_on macos: :big_sur
+
+  app "Glassy.app"
+  binary "#{appdir}/Glassy.app/Contents/MacOS/glassy"
+
+  # glassy is ad-hoc signed (needed just to execute at all on Apple Silicon)
+  # but not notarized — no paid Apple Developer Program account behind this
+  # project. Without this, Gatekeeper blocks first launch with "Apple could
+  # not verify 'glassy' is free of malware", since brew --cask (unlike brew
+  # install of a plain Formula) deliberately quarantines installed apps.
+  # Scoped to Glassy.app only — this has no effect on Gatekeeper's handling
+  # of anything else on the system.
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args: ["-dr", "com.apple.quarantine", "#{appdir}/Glassy.app"]
+  end
+
+  zap trash: [
+    "~/.local/state/glassy",
+    "~/Library/Application Support/glassy",
+    "~/Library/Caches/glassy",
+  ]
+
+  caveats do
+    <<~EOS
+      glassy is ad-hoc signed but not notarized by Apple (no paid Developer
+      Program account behind this project yet). This cask clears the
+      com.apple.quarantine flag on #{appdir}/Glassy.app during install so
+      Gatekeeper doesn't block first launch with "Apple could not verify
+      'glassy' is free of malware". If you'd rather see that warning and
+      decide for yourself, download the .dmg from the Releases page instead:
+        https://github.com/alliecatowo/glassy/releases
+    EOS
+  end
+end
