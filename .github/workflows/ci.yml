@@ -64,7 +64,21 @@ jobs:
       - name: brew audit --strict (formulae)
         run: |
           set -euo pipefail
-          for f in ${{ steps.changed.outputs.formulae }}; do brew audit --strict --except=style --formula "alliecatowo/tap/$f"; done
+          # GoReleaser (patchrun) always writes `version`, which strict audit calls
+          # redundant when the URL carries the version. That one finding is
+          # tolerated for generated formulae; any other finding still fails.
+          for f in ${{ steps.changed.outputs.formulae }}; do
+            if out=$(brew audit --strict --except=style --formula "alliecatowo/tap/$f" 2>&1); then
+              echo "$out"
+              continue
+            fi
+            echo "$out"
+            others=$(echo "$out" | grep '^  \* ' | grep -v 'is redundant with version scanned from URL' || true)
+            if [ -n "$others" ]; then
+              exit 1
+            fi
+            echo "::warning::$f: generated formula keeps a redundant version (tolerated)"
+          done
 
   # Casks are macOS-only; `brew audit --cask` cannot load them on Linux.
   audit-cask:

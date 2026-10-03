@@ -29,10 +29,13 @@ The full name `alliecatowo/tap/<name>` taps the repo automatically. The shorter
 | lumen | formula (macOS + Linux) | `brew install alliecatowo/tap/lumen` | [alliecatowo/lumen](https://github.com/alliecatowo/lumen) |
 | git-why | formula (macOS + Linux, needs `node`) | `brew install alliecatowo/tap/git-why` | [alliecatowo/git-why](https://github.com/alliecatowo/git-why) |
 | shoal | formula (macOS + Linux) | `brew install alliecatowo/tap/shoal` | [alliecatowo/shoal](https://github.com/alliecatowo/shoal) |
+| patchrun | formula (macOS + Linux) | `brew install alliecatowo/tap/patchrun` | [alliecatowo/patchrun](https://github.com/alliecatowo/patchrun) |
+| gh-stories | formula (macOS + Linux) | `brew install alliecatowo/tap/gh-stories` | [alliecatowo/gh-stories](https://github.com/alliecatowo/gh-stories) |
+| daggler | formula (macOS + Linux, needs `node`) | `brew install alliecatowo/tap/daggler` | [alliecatowo/daggler](https://github.com/alliecatowo/daggler) |
 | rssd (`rssd`, `rss`) | formula (macOS + Linux, Python 3.14 + TUI) | `brew install alliecatowo/tap/rssd` | [alliecatowo/rssd](https://github.com/alliecatowo/rssd) |
 
-Planned, added by the project's release job on its first release with Homebrew
-support: `alliecode`.
+Not here yet: casks for k9k and morbstack (they need Developer ID signing and
+notarization, and neither has a release yet) and `alliecode`.
 
 ## Coming from `alliecatowo/glassy`?
 
@@ -45,10 +48,12 @@ brew reinstall alliecatowo/tap/glassy        # or: brew reinstall --cask allieca
 
 ## How formulae get here
 
-Formulae and casks are not edited by hand. Each project's release workflow
-renders its file with the new version and checksums and pushes it to `main`
+Formulae and casks for projects with a release job (glassy, puml, patchrun,
+shoal, lumen, git-why, ticket-master) are not edited by hand: the release workflow
+renders the file with the new version and checksums and pushes it to `main`
 here, authenticating with a write deploy key (secret `HOMEBREW_TAP_DEPLOY_KEY`
-in the source repo). CI here runs `brew style` and `brew audit --strict`, then
+in the source repo). gh-stories, daggler and rssd have no such job yet; bump
+their `url`/`sha256` by hand after a release. CI here runs `brew style` and `brew audit --strict`, then
 installs every formula on Ubuntu and macOS and runs its binary (see
 `.github/workflows/ci.yml`).
 

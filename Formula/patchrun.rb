@@ -5,7 +5,6 @@
 class Patchrun < Formula
   desc "Run any command as a patch before it touches your repo"
   homepage "https://github.com/alliecatowo/patchrun"
-  version "0.1.0"
   license "MIT"
 
   on_macos do
