@@ -1,12 +1,24 @@
-# Homebrew formula for glassy, a fast GPU-accelerated terminal emulator.
-# brew install alliecatowo/tap/glassy
+# Homebrew formula template for glassy, a fast GPU-accelerated terminal emulator.
+# Users install it from the shared tap:
+#   brew install alliecatowo/tap/glassy          # latest tagged release
+#   brew install --HEAD alliecatowo/tap/glassy   # build from main (requires Rust)
 #
-# Version and sha256 fields are rewritten on every release by the update-homebrew
-# job in alliecatowo/glassy (.github/workflows/release.yml), which renders them from
-# packaging/homebrew/tap/formula.rb.tmpl in that repo and pushes here. Do not edit by hand.
+# This is a TEMPLATE. The update-homebrew job in .github/workflows/release.yml
+# renders it (version + sha256 sentinels) into Formula/glassy.rb of
+# alliecatowo/homebrew-tap on every release. Edit this file, not the tap copy:
+# edits there get overwritten on the next release. Rendering fresh from an
+# untouched template every time avoids the old sed-in-place trap, where the
+# sentinels were consumed on the first run and later releases silently stopped
+# updating.
 #
-# On macOS, stable installs fetch the prebuilt per-arch binary release asset. Linux
-# stable installs build from the source tarball. --HEAD builds from main on any OS.
+# On macOS, stable installs fetch the prebuilt per-arch binary that
+# build-macos already uploads as a release asset (glassy-aarch64-macos /
+# glassy-x86_64-macos) instead of compiling from source — `cargo install`
+# here took several minutes (lto = "fat" + codegen-units = 1 in Cargo.toml),
+# while downloading an already-built binary takes seconds. Linux x86_64 does
+# the same with glassy-x86_64-linux. Linux arm64 has no prebuilt asset yet and
+# builds from the top-level source tarball. `--HEAD` always builds from source
+# on any OS, since there's no prebuilt asset for an arbitrary main commit.
 class Glassy < Formula
   desc "Fast, minimal GPU-accelerated terminal emulator written in Rust"
   homepage "https://github.com/alliecatowo/glassy"
@@ -20,9 +32,9 @@ class Glassy < Formula
     depends_on "rust" => :build
   end
 
-  # macOS-only override: swap the default source tarball for a prebuilt
-  # per-arch binary. Homebrew resolves on_arm/on_intel against the host's
-  # arch, so `brew install glassy` on macOS never touches the url/sha256 above.
+  # Override: swap the default source tarball for a prebuilt binary on macOS
+  # and Linux x86_64. Homebrew resolves on_arm/on_intel against the host's
+  # arch, so those installs never touch the url/sha256 above.
   on_macos do
     on_arm do
       url "https://github.com/alliecatowo/glassy/releases/download/v0.6.1/glassy-aarch64-macos"
@@ -35,17 +47,26 @@ class Glassy < Formula
   end
 
   on_linux do
-    depends_on "pkg-config" => :build
-    depends_on "rust" => :build
     depends_on "dbus"
     depends_on "fontconfig"
+
+    on_intel do
+      url "https://github.com/alliecatowo/glassy/releases/download/v0.6.1/glassy-x86_64-linux"
+      sha256 "5f72cc6f819d3137d2fea35516f2bbb3f6721a1b69c0692304216c3a8ccf4bc0"
+    end
+
+    # No prebuilt arm64 Linux binary: build from the source tarball.
+    on_arm do
+      depends_on "pkg-config" => :build
+      depends_on "rust" => :build
+    end
   end
 
   def install
-    if OS.mac? && !build.head?
-      # Downloaded as a bare (non-archived) binary named glassy-<arch>-macos;
+    if !build.head? && (OS.mac? || Hardware::CPU.intel?)
+      # Downloaded as a bare (non-archived) binary named glassy-<arch>-<os>;
       # GitHub release assets carry no exec bit, hence the explicit chmod.
-      bin.install Dir["glassy-*-macos"].first => "glassy"
+      bin.install Dir["glassy-*-{macos,linux}"].first => "glassy"
       chmod 0755, bin/"glassy"
     else
       system "cargo", "install", *std_cargo_args
