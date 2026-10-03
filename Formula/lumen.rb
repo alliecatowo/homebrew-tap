@@ -7,23 +7,23 @@ class Lumen < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/alliecatowo/lumen/releases/download/v0.5.2/lumen-macos-arm64.tar.gz"
-      sha256 "152152628038005b5aabe3d7b0bd16819549c66b240fc2f15c683213c0e637c3"
+      url "https://github.com/alliecatowo/lumen/releases/download/v0.6.0/lumen-macos-arm64.tar.gz"
+      sha256 "d5eacd7d20ee0b3eeda2b4da20ed32dd3fd734f26ddd9ed9a68441985ebbbe3c"
     end
     on_intel do
-      url "https://github.com/alliecatowo/lumen/releases/download/v0.5.2/lumen-macos-x64.tar.gz"
-      sha256 "8026a3c7e10249fdc63b0339142ce5a6b5529e217a67db024f368fe159d7d6f5"
+      url "https://github.com/alliecatowo/lumen/releases/download/v0.6.0/lumen-macos-x64.tar.gz"
+      sha256 "f6951f05e2bdd17a1b804ce4317eb217bb112d2e7f6e49bf4d172ed174bb6cc5"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/alliecatowo/lumen/releases/download/v0.5.2/lumen-linux-arm64.tar.gz"
-      sha256 "1b67592f5ff021c17ca64f0670dbfdc3f20034fee92d75e34da3ff3401063961"
+      url "https://github.com/alliecatowo/lumen/releases/download/v0.6.0/lumen-linux-arm64.tar.gz"
+      sha256 "a69276009090b8233969dc941d86e404c7e24dda96d65260cde74f4bbb45090c"
     end
     on_intel do
-      url "https://github.com/alliecatowo/lumen/releases/download/v0.5.2/lumen-linux-x64-musl.tar.gz"
-      sha256 "c1c4ab9602a35ece569fe8ea4ee161e7b3cfb9208a3a9e09c03c5c39fd6021c4"
+      url "https://github.com/alliecatowo/lumen/releases/download/v0.6.0/lumen-linux-x64-musl.tar.gz"
+      sha256 "5ef45a47b362025f4c7599d9d65e8b924a59df6bc5fd3a1d6512851e4ee4e48a"
     end
   end
 
