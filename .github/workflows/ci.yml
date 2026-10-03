@@ -48,16 +48,16 @@ jobs:
           echo "Formulae: $formulae"
           echo "Casks: $casks"
 
-      # Newest Homebrew wants post_install_steps/postflight_steps (a DSL that
-      # released brews do not understand yet). Keep the classic form so installs
-      # work for everyone, and exclude only those two cops.
+      # Newest Homebrew wants post_install_steps in formulae (a DSL older brews
+      # do not understand yet), so formulae keep the classic post_install and
+      # skip that cop. Casks use postflight_steps and need no exception.
       - name: brew style
         env:
-          EXCEPT: FormulaAudit/InstallSteps,Cask/InstallSteps
+          EXCEPT: FormulaAudit/InstallSteps
         run: |
           set -euo pipefail
           for f in ${{ steps.changed.outputs.formulae }}; do brew style --except-cops "$EXCEPT" "alliecatowo/tap/$f"; done
-          for c in ${{ steps.changed.outputs.casks }}; do brew style --except-cops "$EXCEPT" --cask "alliecatowo/tap/$c"; done
+          for c in ${{ steps.changed.outputs.casks }}; do brew style --cask "alliecatowo/tap/$c"; done
 
       # brew style above already ran the style cops, so skip them here:
       # --strict and --except-cops are mutually exclusive.
@@ -116,9 +116,14 @@ jobs:
           set -euo pipefail
           for path in Formula/*.rb; do
             f=$(basename "$path" .rb)
+            # Binary name differs from the formula name for a few formulae.
+            case "$f" in
+              ticket-master) bin=tm ;;
+              *) bin="$f" ;;
+            esac
             echo "::group::install $f"
             brew install "alliecatowo/tap/$f"
-            "$(brew --prefix)/bin/$f" --version
+            "$(brew --prefix)/bin/$bin" --version
             brew test "alliecatowo/tap/$f"
             echo "::endgroup::"
           done
