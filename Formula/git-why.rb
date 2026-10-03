@@ -4,8 +4,8 @@
 class GitWhy < Formula
   desc "Semantic archaeology for Git. Find the history that explains the code"
   homepage "https://github.com/alliecatowo/git-why"
-  url "https://registry.npmjs.org/@alliecatowo/git-why/-/git-why-0.1.0.tgz"
-  sha256 "4297270b72f0744a49cf7483ceb3420fb88cb627a4e7296276f7244842dce400"
+  url "https://registry.npmjs.org/@alliecatowo/git-why/-/git-why-0.1.1.tgz"
+  sha256 "3b10bbf1c37997f99a886782b06516ec79a3b8bdfc73ee18458189c656d9c6fa"
   license "Apache-2.0"
 
   depends_on "node"
