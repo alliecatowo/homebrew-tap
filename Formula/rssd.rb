@@ -9,15 +9,25 @@ class Rssd < Formula
   sha256 "f1049a64c9d2facbdda1c1475ebb2d79ecd4fc37b7407a6c2bd3acde40d5ee4a"
   license "MIT"
 
-  depends_on "uv" => :build
   depends_on "python@3.14"
+  depends_on "uv"
 
+  # The virtualenv is built in post_install, not install: its prebuilt wheels
+  # include Rust extensions (watchfiles) that Homebrew cannot relink on macOS.
   def install
+    %w[rssd rss].each do |name|
+      (bin/name).write <<~SH
+        #!/bin/sh
+        exec "#{opt_libexec}/venv/bin/#{name}" "$@"
+      SH
+    end
+  end
+
+  def post_install
     python = formula_opt_bin("python@3.14")/"python3.14"
     ENV["UV_PYTHON_DOWNLOADS"] = "never"
-    system "uv", "venv", "--python", python, libexec
-    system "uv", "pip", "install", "--python", libexec/"bin/python", "#{buildpath}[tui]"
-    bin.install_symlink libexec/"bin/rssd", libexec/"bin/rss"
+    system "uv", "venv", "--python", python, libexec/"venv"
+    system "uv", "pip", "install", "--python", libexec/"venv/bin/python", "rssd-fs[tui]==#{version}"
   end
 
   test do
