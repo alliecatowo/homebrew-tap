@@ -29,6 +29,7 @@ The full name `alliecatowo/tap/<name>` taps the repo automatically. The shorter
 | lumen | formula (macOS + Linux) | `brew install alliecatowo/tap/lumen` | [alliecatowo/lumen](https://github.com/alliecatowo/lumen) |
 | git-why | formula (macOS + Linux, needs `node`) | `brew install alliecatowo/tap/git-why` | [alliecatowo/git-why](https://github.com/alliecatowo/git-why) |
 | shoal | formula (macOS + Linux) | `brew install alliecatowo/tap/shoal` | [alliecatowo/shoal](https://github.com/alliecatowo/shoal) |
+| rssd (`rssd`, `rss`) | formula (macOS + Linux, Python 3.14 + TUI) | `brew install alliecatowo/tap/rssd` | [alliecatowo/rssd](https://github.com/alliecatowo/rssd) |
 
 Planned, added by the project's release job on its first release with Homebrew
 support: `alliecode`.
