@@ -4,7 +4,6 @@
 class TicketMaster < Formula
   desc "Interactive coding agent with a ticket-powered background crew (the tm CLI)"
   homepage "https://github.com/alliecatowo/ticket-master"
-  version "0.1.1"
   license any_of: ["MIT", "Apache-2.0"]
 
   on_macos do
