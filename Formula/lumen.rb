@@ -3,7 +3,6 @@
 class Lumen < Formula
   desc "Markdown-native, statically typed language for deterministic AI-native workflows"
   homepage "https://github.com/alliecatowo/lumen"
-  version "0.5.2"
   license "MIT"
 
   on_macos do
