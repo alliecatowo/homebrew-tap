@@ -1,28 +1,28 @@
 class Shoal < Formula
   desc "Structured, typed, sandbox-aware shell"
   homepage "https://github.com/alliecatowo/shoal"
-  version "0.1.1"
+  version "0.1.3"
   license any_of: ["MIT", "Apache-2.0"]
 
   on_macos do
     on_arm do
-      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.1/shoal-v0.1.1-aarch64-apple-darwin.tar.gz"
-      sha256 "00ff2ddc4290930b0f774aeccb507b6b26ee4a703739d3ff05b3a24cc500f58b"
+      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.3/shoal-v0.1.3-aarch64-apple-darwin.tar.gz"
+      sha256 "6bafcbcb06188f99951a3846ac74e62df2ce88e3b3643ddad84b49a4dcac360b"
     end
     on_intel do
-      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.1/shoal-v0.1.1-x86_64-apple-darwin.tar.gz"
-      sha256 "6b9e2406bd9f0bd29208c7f315983e33abdd5cd92413ba645a6c47479151a053"
+      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.3/shoal-v0.1.3-x86_64-apple-darwin.tar.gz"
+      sha256 "ab68416b4e59295918b83930a1fdd4bc06b3b69e9550fa821e34a17b89010d65"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.1/shoal-v0.1.1-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "e7d6dbd711f0f3e7fb1d9ba480a1980c011cb2f643458128840751434e9915af"
+      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.3/shoal-v0.1.3-aarch64-unknown-linux-gnu.tar.gz"
+      sha256 "64e770bdcf96f5bbd07ba9ffff83320ee1af9c735a1659f85ec0703c9cc5a232"
     end
     on_intel do
-      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.1/shoal-v0.1.1-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "3fce93b6a0af6f8c542f535f8b5dcb360b26ef3e292b1559c5a04fb4f8f81228"
+      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.3/shoal-v0.1.3-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "1e98b001ac005061f8f32d0f87e3e39384bf3af508a6f18b3bd1bb3d5670aee9"
     end
   end
 
