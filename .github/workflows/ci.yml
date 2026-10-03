@@ -7,6 +7,8 @@ on:
     branches: [main]
     paths: ["Formula/**", "Casks/**", ".github/workflows/ci.yml"]
   workflow_dispatch:
+  schedule:
+    - cron: "17 6 * * 1"
 
 permissions:
   contents: read
@@ -92,4 +94,52 @@ jobs:
           fi
           for f in $files; do
             brew audit --strict --except=style --cask "alliecatowo/tap/$(basename "$f" .rb)"
+          done
+
+  # Install every formula from the tap on both OSes and run its binary, so a
+  # missing Linux/macOS build or a broken download fails CI instead of users.
+  install:
+    name: install + --version (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: Homebrew/actions/setup-homebrew@main
+
+      - name: brew install each formula and run it
+        run: |
+          set -euo pipefail
+          for path in Formula/*.rb; do
+            f=$(basename "$path" .rb)
+            echo "::group::install $f"
+            brew install "alliecatowo/tap/$f"
+            "$(brew --prefix)/bin/$f" --version
+            brew test "alliecatowo/tap/$f"
+            echo "::endgroup::"
+          done
+
+  # Casks are macOS-only. Install each and run its linked CLI binary.
+  install-cask:
+    name: install cask + --version
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: Homebrew/actions/setup-homebrew@main
+
+      - name: brew install each cask and run it
+        run: |
+          set -euo pipefail
+          for path in Casks/*.rb; do
+            c=$(basename "$path" .rb)
+            echo "::group::install --cask $c"
+            brew install --cask "alliecatowo/tap/$c"
+            "$(brew --prefix)/bin/$c" --version
+            echo "::endgroup::"
           done
