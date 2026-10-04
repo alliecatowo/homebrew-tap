@@ -5,8 +5,8 @@
 class Rssd < Formula
   desc "File-based RSS daemon: the filesystem is the API"
   homepage "https://github.com/alliecatowo/rssd"
-  url "https://files.pythonhosted.org/packages/c5/0f/0fcd4e8bef543e142fa0e60bc4a8694cccbd5b4f74329e142fb72e20b315/rssd_fs-0.2.2.tar.gz"
-  sha256 "5c728df751c72684c7deede5d030ef0c6ba758a0b213e8946dc15f18b4e1d81a"
+  url "https://files.pythonhosted.org/packages/61/6a/83669dd0a93e72a91dd9ba7a200a9097b709970b608292f4dc4e4e6c4a6a/rssd_fs-0.3.0.tar.gz"
+  sha256 "1ced62c71f79176131b881ae7b36a607eb452965db0d8c28edcb17653be33d88"
   license "MIT"
 
   depends_on "python@3.14"
