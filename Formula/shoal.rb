@@ -5,23 +5,23 @@ class Shoal < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.4/shoal-v0.1.4-aarch64-apple-darwin.tar.gz"
-      sha256 "55a989ba46ad8a152598510366fc52f5976bb290f6b74be7e07f923077ba565d"
+      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.5/shoal-v0.1.5-aarch64-apple-darwin.tar.gz"
+      sha256 "be15dc6dfcc05ccc0a1bed81ae835b2715d8555eb8b0c7396daa77278a8de847"
     end
     on_intel do
-      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.4/shoal-v0.1.4-x86_64-apple-darwin.tar.gz"
-      sha256 "6e2f9a5eca5c2d9c17134853f3110d293ea70ee7111d37a6d99ba2d9f6fd60bf"
+      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.5/shoal-v0.1.5-x86_64-apple-darwin.tar.gz"
+      sha256 "c73dac10814515347ece5794135ca6033fe8a1d4f704e2582cbe2dde38a63956"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.4/shoal-v0.1.4-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "e848f555dd48c4bcbb4f45a4d3f976621751a1847113a81f87267dec7be7f4d7"
+      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.5/shoal-v0.1.5-aarch64-unknown-linux-gnu.tar.gz"
+      sha256 "23fe0895075d7cd8ff9301db26b943e5df69f2e6130747a28dd33741483b6b93"
     end
     on_intel do
-      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.4/shoal-v0.1.4-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "d1e49be4eb6ff67e56c1905c247946860106fa6384ba772103eae60ddb39af48"
+      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.5/shoal-v0.1.5-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "046bfb2442ea2746935c86f010d9393a0267733a23012cb8ab1d3b9775f2f757"
     end
   end
 
