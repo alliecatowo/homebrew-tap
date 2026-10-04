@@ -142,7 +142,8 @@ jobs:
             echo "::group::install $f"
             brew install "alliecatowo/tap/$f"
             "$(brew --prefix)/bin/$bin" "$flag" >/dev/null
-            brew test "alliecatowo/tap/$f"
+            # GoReleaser-generated formulae (alliecode) define no test block.
+            if grep -q '^  test do' "$path"; then brew test "alliecatowo/tap/$f"; fi
             echo "::endgroup::"
           done
 
