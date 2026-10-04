@@ -7,23 +7,23 @@ class Puml < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/alliecatowo/puml/releases/download/v0.2.2/puml-aarch64-apple-darwin.tar.gz"
-      sha256 "434951d87601722766f6f9c1feab714c0b7f6923ed7183afd63305aaee138c2b"
+      url "https://github.com/alliecatowo/puml/releases/download/v0.2.4/puml-aarch64-apple-darwin.tar.gz"
+      sha256 "6c6ffd3073475ab0421553418064b6e19863e7f05da4a85e70fc67d4c2d8acde"
     end
     on_intel do
-      url "https://github.com/alliecatowo/puml/releases/download/v0.2.2/puml-x86_64-apple-darwin.tar.gz"
-      sha256 "67e27e54269fe2ea794aa3667f08bc3b571f2c8b2da85c84719b8df7aad73dcc"
+      url "https://github.com/alliecatowo/puml/releases/download/v0.2.4/puml-x86_64-apple-darwin.tar.gz"
+      sha256 "c213cc332e073c1b4c4615a171de32427fd5a83a45c477d5783374cdc80698e9"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/alliecatowo/puml/releases/download/v0.2.2/puml-aarch64-unknown-linux-musl.tar.gz"
-      sha256 "4a5910177b4a6898100da1f7dbb30ef74c00efb9040760a02ccd677b145473df"
+      url "https://github.com/alliecatowo/puml/releases/download/v0.2.4/puml-aarch64-unknown-linux-musl.tar.gz"
+      sha256 "6245650ef1d8cf46425e2a8194e9d3946f952401e525161f1cad330aa8852f05"
     end
     on_intel do
-      url "https://github.com/alliecatowo/puml/releases/download/v0.2.2/puml-x86_64-unknown-linux-musl.tar.gz"
-      sha256 "086decb4605c9ff19195a8fb792824a5c2e7cb904bc1e1adf09a232327954906"
+      url "https://github.com/alliecatowo/puml/releases/download/v0.2.4/puml-x86_64-unknown-linux-musl.tar.gz"
+      sha256 "7d2ff87ee2b0802574251c591a85f6c5d33f86b6793e21cc02e61002fad4bacd"
     end
   end
 
