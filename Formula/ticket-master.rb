@@ -8,23 +8,23 @@ class TicketMaster < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/alliecatowo/ticket-master/releases/download/v0.1.2/tm-aarch64-apple-darwin.tar.gz"
-      sha256 "632c0cc441c7fe8430ef5b8324050993c244ad3eaa45e96bce8f0bccde082b9b"
+      url "https://github.com/alliecatowo/ticket-master/releases/download/v0.1.3/tm-aarch64-apple-darwin.tar.gz"
+      sha256 "51a31f76be2900dd79a7f9d259eb3d33e62f6a29933b2d9112421937fad927c3"
     end
     on_intel do
-      url "https://github.com/alliecatowo/ticket-master/releases/download/v0.1.2/tm-x86_64-apple-darwin.tar.gz"
-      sha256 "6a6737dd2351e7d0975a6babb91720dc20d129f23c2368b9dc9a00ce95b5de52"
+      url "https://github.com/alliecatowo/ticket-master/releases/download/v0.1.3/tm-x86_64-apple-darwin.tar.gz"
+      sha256 "c61899ba5c3dfc202209c47e29841f0e00b964996949f4f43ca4ea49471828b2"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/alliecatowo/ticket-master/releases/download/v0.1.2/tm-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "b00d8a56ec950183facff09ac1390b5e3a25c7fc36894da21b45d7ca0767955b"
+      url "https://github.com/alliecatowo/ticket-master/releases/download/v0.1.3/tm-aarch64-unknown-linux-gnu.tar.gz"
+      sha256 "a3a46c610222f7d0833e24ba6809db7b11f6fc0a2964029f2abef92433962244"
     end
     on_intel do
-      url "https://github.com/alliecatowo/ticket-master/releases/download/v0.1.2/tm-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "7af6bc57b35dc9fd66f9eee94322232b46f190773a3c76af624a2c983f5322f8"
+      url "https://github.com/alliecatowo/ticket-master/releases/download/v0.1.3/tm-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "4d6df3d26f7a0ff478b7e278dccbbee2e0ae4af4618141fef7c05d3e8151b877"
     end
   end
 
