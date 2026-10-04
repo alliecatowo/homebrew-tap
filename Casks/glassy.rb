@@ -1,17 +1,26 @@
-# Homebrew Cask for glassy, a fast GPU-accelerated terminal emulator.
-# brew install --cask alliecatowo/tap/glassy
+# Homebrew Cask template for glassy, a fast GPU-accelerated terminal emulator.
+#   brew install --cask alliecatowo/tap/glassy
 #
-# Installs Glassy.app and links the embedded CLI binary onto PATH. Version and sha256
-# fields are rewritten on every release by the update-homebrew job in
-# alliecatowo/glassy, rendered from packaging/homebrew/tap/cask.rb.tmpl. Do not edit by hand.
+# TEMPLATE: the update-homebrew job in .github/workflows/release.yml renders it
+# into Casks/glassy.rb of alliecatowo/homebrew-tap on every release. Edit this
+# file, not the tap copy.
+#
+# This is the recommended macOS install path: it puts Glassy.app in
+# /Applications AND symlinks the CLI binary embedded in the bundle
+# (Contents/MacOS/glassy — the same binary that runs the GUI) onto PATH via
+# the `binary` artifact below, so installing the cask alone gets you both
+# the app and the `glassy` command with no separate Formula/glassy.rb
+# install needed. Formula/glassy.rb still exists for Linux (Casks are
+# macOS-only) and for anyone who explicitly wants a headless CLI-only build.
+#
 cask "glassy" do
   arch arm: "aarch64", intel: "x86_64"
 
-  version "0.6.1"
-  sha256 arm:   "b55b5e2b4bc7164b4e6c7f7e726ba056dc981a21e2f99fdb4cf682e2a157fa26",
-         intel: "eeaee56df9850b20e18a3718a7345f16956025ad39af57ba31b8b579e61d2a9b"
+  version "0.6.2"
+  sha256 arm:   "9c69bb527fa041be934b56829a5dbd7f8d5f0dbaaf161324846cd4f5453accdb",
+         intel: "a2a42242c0920574afbf3b55ff057ef643990ba62a8db0d53aa28762cfee5062"
 
-  url "https://github.com/alliecatowo/glassy/releases/download/v0.6.1/glassy-#{version}-macos-#{arch}.dmg"
+  url "https://github.com/alliecatowo/glassy/releases/download/v0.6.2/glassy-#{version}-macos-#{arch}.dmg"
   name "Glassy"
   desc "Fast, minimal GPU-accelerated terminal emulator written in Rust"
   homepage "https://github.com/alliecatowo/glassy"
