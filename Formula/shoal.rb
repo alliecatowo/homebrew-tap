@@ -5,29 +5,33 @@ class Shoal < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.5/shoal-v0.1.5-aarch64-apple-darwin.tar.gz"
-      sha256 "be15dc6dfcc05ccc0a1bed81ae835b2715d8555eb8b0c7396daa77278a8de847"
+      url "https://github.com/alliecatowo/shoal/releases/download/v0.2.0/shoal-v0.2.0-aarch64-apple-darwin.tar.gz"
+      sha256 "c51ea53df9ffd5f6dbd902d00523a3f64db396a4b23152fe018a69e0f35d8b90"
     end
     on_intel do
-      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.5/shoal-v0.1.5-x86_64-apple-darwin.tar.gz"
-      sha256 "c73dac10814515347ece5794135ca6033fe8a1d4f704e2582cbe2dde38a63956"
+      url "https://github.com/alliecatowo/shoal/releases/download/v0.2.0/shoal-v0.2.0-x86_64-apple-darwin.tar.gz"
+      sha256 "f3cfc5f631ec57b6f148edb181effcd46dfc4eb4f418a42905ac05ca5b4d221d"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.5/shoal-v0.1.5-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "23fe0895075d7cd8ff9301db26b943e5df69f2e6130747a28dd33741483b6b93"
+      url "https://github.com/alliecatowo/shoal/releases/download/v0.2.0/shoal-v0.2.0-aarch64-unknown-linux-gnu.tar.gz"
+      sha256 "3edd356c574120777caa92ed9e8af1e4547b56d187104bbf119a571806bcfa58"
     end
     on_intel do
-      url "https://github.com/alliecatowo/shoal/releases/download/v0.1.5/shoal-v0.1.5-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "046bfb2442ea2746935c86f010d9393a0267733a23012cb8ab1d3b9775f2f757"
+      url "https://github.com/alliecatowo/shoal/releases/download/v0.2.0/shoal-v0.2.0-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "8c2f0e94223ebcaf32147456a182d58af54ec2fb8522910cfc9debdce6510725"
     end
   end
 
   def install
     # The archive holds one directory of prebuilt executables plus docs.
     bin.install Dir["shoal*"].select { |f| File.file?(f) && File.executable?(f) }
+    man1.install Dir["man/*.1"] if Dir.exist?("man")
+    bash_completion.install "completions/shoal.bash" => "shoal" if File.exist?("completions/shoal.bash")
+    zsh_completion.install "completions/_shoal" if File.exist?("completions/_shoal")
+    fish_completion.install "completions/shoal.fish" if File.exist?("completions/shoal.fish")
     doc.install "README.md"
   end
 
