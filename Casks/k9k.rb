@@ -4,16 +4,16 @@
 # Version and sha256 are rewritten on every release by the update-homebrew job in
 # alliecatowo/k9k, rendered from packaging/homebrew/k9k.rb.tmpl. Do not edit by hand.
 cask "k9k" do
-  version "0.1.0"
-  sha256 "8c808e0b0c0b9a76c255949f3588bc5464621be3eeb41578914c39d3a4496d8b"
+  version "0.1.1"
+  sha256 "e713e416bd4435b331bdad5b2fad6ed8be1d1123524398161b99c68ebeb56b2b"
 
   url "https://github.com/alliecatowo/k9k/releases/download/v#{version}/K9k-#{version}-macos-arm64.zip"
   name "K9k"
-  desc "Native macOS Kubernetes manager"
+  desc "Native Kubernetes manager built with SwiftUI and Go"
   homepage "https://github.com/alliecatowo/k9k"
 
   depends_on arch: :arm64
-  depends_on macos: ">= :tahoe"
+  depends_on macos: :tahoe
 
   app "K9k.app"
 
@@ -22,9 +22,10 @@ cask "k9k" do
   # block first launch. Clear the flag for K9k.app only.
   # TODO(notarization): once releases are notarized and stapled, delete this
   # postflight block and the caveat below.
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args: ["-dr", "com.apple.quarantine", "#{appdir}/K9k.app"]
+  postflight_steps do
+    run "/usr/bin/xattr",
+        args:           ["-dr", "com.apple.quarantine", "{{appdir}}/K9k.app"],
+        writable_paths: ["{{appdir}}/K9k.app"]
   end
 
   zap trash: [
