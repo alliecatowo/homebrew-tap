@@ -18,12 +18,12 @@ jobs:
     name: brew style + audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
 
       # Installs Homebrew and taps this checkout as alliecatowo/tap.
-      - uses: Homebrew/actions/setup-homebrew@main
+      - uses: Homebrew/actions/setup-homebrew@dc7099b3e807f1e2ecc61f3ecabc840eedd5586a # main
 
       - name: Find changed formulae and casks
         id: changed
@@ -85,11 +85,11 @@ jobs:
     name: brew audit --cask
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
 
-      - uses: Homebrew/actions/setup-homebrew@main
+      - uses: Homebrew/actions/setup-homebrew@dc7099b3e807f1e2ecc61f3ecabc840eedd5586a # main
 
       - name: Audit changed casks
         run: |
@@ -121,9 +121,9 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: Homebrew/actions/setup-homebrew@main
+      - uses: Homebrew/actions/setup-homebrew@dc7099b3e807f1e2ecc61f3ecabc840eedd5586a # main
 
       - name: brew install each formula and run it
         run: |
@@ -133,12 +133,17 @@ jobs:
             # Binary name differs from the formula name for a few formulae.
             case "$f" in
               ticket-master) bin=tm ;;
+              alliecode) bin=ac ;;
               *) bin="$f" ;;
             esac
+            # alliecode's CLI has no --version flag yet; --help still proves the binary runs.
+            flag=--version
+            [ "$f" = alliecode ] && flag=--help
             echo "::group::install $f"
             brew install "alliecatowo/tap/$f"
-            "$(brew --prefix)/bin/$bin" --version
-            brew test "alliecatowo/tap/$f"
+            "$(brew --prefix)/bin/$bin" "$flag" >/dev/null
+            # GoReleaser-generated formulae (alliecode) define no test block.
+            if grep -q '^  test do' "$path"; then brew test "alliecatowo/tap/$f"; fi
             echo "::endgroup::"
           done
 
@@ -148,9 +153,9 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: Homebrew/actions/setup-homebrew@main
+      - uses: Homebrew/actions/setup-homebrew@dc7099b3e807f1e2ecc61f3ecabc840eedd5586a # main
 
       - name: brew install each cask and run it
         run: |
@@ -159,6 +164,11 @@ jobs:
             c=$(basename "$path" .rb)
             echo "::group::install --cask $c"
             brew install --cask "alliecatowo/tap/$c"
-            "$(brew --prefix)/bin/$c" --version
+            # Some casks ship a bare .app with no CLI; others link a differently named binary.
+            case "$c" in
+              k9k) test -d /Applications/K9k.app ;;
+              morbstack) test -e "$(brew --prefix)/bin/morb" ;;
+              *) "$(brew --prefix)/bin/$c" --version ;;
+            esac
             echo "::endgroup::"
           done
