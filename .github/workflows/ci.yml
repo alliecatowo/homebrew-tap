@@ -136,9 +136,12 @@ jobs:
               alliecode) bin=ac ;;
               *) bin="$f" ;;
             esac
+            # alliecode's CLI has no --version flag yet; --help still proves the binary runs.
+            flag=--version
+            [ "$f" = alliecode ] && flag=--help
             echo "::group::install $f"
             brew install "alliecatowo/tap/$f"
-            "$(brew --prefix)/bin/$bin" --version
+            "$(brew --prefix)/bin/$bin" "$flag" >/dev/null
             brew test "alliecatowo/tap/$f"
             echo "::endgroup::"
           done
